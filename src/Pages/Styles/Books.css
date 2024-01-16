@@ -1,0 +1,32 @@
+.books_main{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px auto;
+}
+.books_table{
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    /* text-align: center; */
+    /* border-radius: 6px; */
+}
+th{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    border: 1px solid #ff9b9d;
+    /* width: 33%; */
+    height: 50px;
+    /* border-radius: 6px; */
+    background-color: #ff9b9d;
+    color: white;
+}
+td{
+    height: 50px;
+    font-weight: 700;
+    color: #222e50;
+    text-align: center;
+    border: 1px solid #ff9b9d;
+}
