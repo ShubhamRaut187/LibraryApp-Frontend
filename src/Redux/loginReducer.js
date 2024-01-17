@@ -3,10 +3,6 @@ import { Login,Logout } from "./actiontypes";
 // Initial store value
 let InitialLog = {
     Status:false,
-    LoginRouteConfig:{
-        path:'/signuplogin',
-        name:'Login'
-    },
     User:{},
 }
 
@@ -16,10 +12,6 @@ const loginReducer = (store = InitialLog,action) => {
         case Login:{
             return{
                 Status:true,
-                LoginRouteConfig:{
-                    path:'/profile',
-                    name:'My Profile'
-                },
                 User:action.payload
             }
         }

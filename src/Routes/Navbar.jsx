@@ -1,14 +1,15 @@
 import React,{useState} from 'react';
 import './Styles/Navbar.css'
 import {Link} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { handlelogout } from '../Redux/action';
 
 function Navbar(props) {
     let [active,SetActive] = useState("nav_menu")
     let [toggleIcon,Settoggleicon] = useState("nav_toggler")
     let Navigate = useNavigate();
-    
+    let dispatch=useDispatch();
     
     let navToggle = ()=>{
         active === "nav_menu" ? SetActive("nav_menu nav_active") : SetActive("nav_menu");
@@ -32,7 +33,10 @@ function Navbar(props) {
                 <li className='nav_item'><Link to='/books' className='nav_link'>Books</Link></li>
                 <li className='nav_item'>
                     {
-                        Status ? <button>Logout</button> : <Link to='/signuplogin' className='nav_link'>Login</Link>
+                        Status ? <button onClick={()=>{
+                            dispatch(handlelogout(null))
+                            Navigate('/signuplogin')
+                        }}>Logout</button> : <Link to='/signuplogin' className='nav_link'>Login</Link>
                     }
                 </li>
             </ul>

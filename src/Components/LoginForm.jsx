@@ -1,12 +1,51 @@
 import React,{useState} from 'react';
 import './Styles/LoginForm.css'
-
+import {handlelogin} from '../Redux/action'
+import {useDispatch} from 'react-redux'
 import LoadingComp from './LoadingComp';
+import {useNavigate} from 'react-router-dom'
 
 function LoginForm({SetPage}) {
     let [Email,SetEmail] = useState('');
     let [Password,SetPassword] = useState('');
     let [Loading,SetLoading] = useState(false);
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
+    let validateUser = (e) => {
+        e.preventDefault();
+        if(!Email || !Password){
+            return alert('All fields are mandatory');
+        }
+        SetLoading(true);
+        fetch('https://mysticbooks.onrender.com/auth/v1/login',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                Email,
+                Password
+            })
+        }).then((response)=>{
+            return response.json();
+        }).then((response)=>{
+            if(response.Message === 'Login successful.'){
+                dispatch(handlelogin(response));
+                alert(response.Message);
+                SetLoading(false);
+                navigate('/books');
+            }
+            else{
+                alert(response.Message);
+                SetLoading(false);
+            }
+        }).catch((error)=>{
+            SetLoading(false);
+            alert('Please try again')
+            console.log(error);
+        })
+    }
+
 
     return (
         <div className='loginform_main'>
@@ -18,7 +57,7 @@ function LoginForm({SetPage}) {
                 <h2>Login to your account.</h2>
                 <p>Kindly enter your registered email and password to access your Mystic Books account.</p>
                 {
-                    Loading ? <LoadingComp Text={'Logging in...!'}/> : <form className='login_form'>
+                    Loading ? <LoadingComp Text={'Logging in...!'}/> : <form className='login_form' onSubmit={validateUser}>
                     <label>Email *</label>
                     <input className='login_form_input' type="email"  placeholder='Email'onChange={(e)=>{
                         SetEmail(e.target.value);
